@@ -9,16 +9,16 @@ const PORT = process.env.PORT || 3000;
 console.log("[v0] Server starting, __dirname:", __dirname);
 console.log("[v0] index.html exists:", fs.existsSync(path.join(__dirname, 'index.html')));
 
-app.use(cors());
-app.use(express.json());
-
-// Serve static frontend files from the project root
-app.use(express.static(path.join(__dirname)));
-
 app.use((req, res, next) => {
   console.log("[v0] Request:", req.method, req.url);
   next();
 });
+
+app.use(cors());
+app.use(express.json());
+
+// Serve static frontend files from the project root
+app.use(express.static(path.join(__dirname), { index: 'index.html' }));
 
 const DATA_DIR = path.join(__dirname, 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
