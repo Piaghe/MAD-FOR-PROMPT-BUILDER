@@ -24,7 +24,7 @@ let openCol = null;
 // (Hover audio disabled by user request)
 
 // --- Simple account + per-user storage layer (backend + local cache) ---
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'https://mad-for-prompt-builder.onrender.com';
 const AUTH_CURRENT_KEY = 'currentUser';
 let currentUser = localStorage.getItem(AUTH_CURRENT_KEY) || null;
 
