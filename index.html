@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Prompt Builder</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="authScreen" class="auth-screen mono">
+    <div class="auth-card">
+      <div class="auth-title">MODULAR PROMPT BUILDER</div>
+      <div class="auth-subtitle">Login / Create account</div>
+      <input id="loginUser" type="text" placeholder="username" autocomplete="off" />
+      <div class="auth-pass-wrap">
+        <input id="loginPass" type="password" placeholder="password" />
+        <button id="togglePass" type="button" class="auth-eye" aria-label="Mostra/Nascondi password">
+          <svg class="auth-eye-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+      <div class="auth-actions">
+        <button id="loginBtn">LOGIN</button>
+        <button id="signupBtn">CREATE ACCOUNT</button>
+      </div>
+      <div class="auth-hint">Use LOGIN if you already have an account, or CREATE ACCOUNT to register.</div>
+    </div>
+  </div>
+  <div class="header">
+    <div id="appTitle" class="left mono">MODULAR PROMPT BUILDER</div>
+    <div class="center mono" id="indexBtn">INDEX</div>
+
+    <!-- Soundtrack volume control placed between INDEX and timer -->
+    <div id="soundControl" class="sound-control mono">
+      <input id="soundVolume" type="range" min="0" max="1" step="0.01" value="0.25" title="Site soundtrack volume" />
+    </div>
+
+    <div id="authPanel" class="auth-panel mono"></div>
+
+    <div class="right mono">
+      <div id="clock"></div>
+      <a id="mcrLink" class="loc mono" href="https://cazzaro-marco.com/" target="_blank" rel="noopener noreferrer">MCR ☀</a>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay hidden">
+    <button id="closeIndex" class="close-index" aria-label="Close index">✕</button>
+    <div class="index-grid" id="indexGrid"></div>
+    <hr class="overlay-sep" />
+    <div id="templatesSection" class="templates-section"></div>
+  </div>
+
+  <div class="editor-container">
+    <div id="placeholder" class="placeholder">Write your prompt… Use @ to insert elements</div>
+    <div id="editor" class="prompt" contenteditable="true"></div>
+
+    <div class="editor-actions">
+      <button id="copyPromptBtn" class="copy-inline mono" title="Copy prompt">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="9" y="3" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5" />
+          <rect x="3" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5" opacity="0.95" />
+        </svg>
+      </button>
+      <button id="saveTemplateBtn" class="save-template mono" title="+ SAVE PROMPT AS TEMPLATE">+ SAVE PROMPT AS TEMPLATE</button>
+    </div>
+  </div>
+
+  <!-- @ menus -->
+  <div id="atMenu" class="floating-menu hidden"></div>
+  <div id="itemMenu" class="floating-menu hidden"></div>
+
+  <!-- bottom marquee -->
+  <div class="bottom-marquee mono" aria-hidden="true">
+    <div class="marquee">
+      MARCO CAZZARO - 2026 - PROMPT BUILDER - CREATE YOUR TEMPLATE FOR INFINITE IMAGE VARIATIONS -
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

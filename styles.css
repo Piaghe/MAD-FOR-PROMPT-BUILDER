@@ -1,0 +1,536 @@
+*{box-sizing:border-box;}
+body{margin:0;background:#000000;overflow:hidden;font-family:Inter,system-ui,sans-serif;}
+.mono{font-family:"Space Mono",ui-monospace,monospace;text-transform:uppercase;letter-spacing:1px;}
+
+.auth-screen{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at top,#202020 0,#000000 55%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.auth-card{
+  background:rgba(0,0,0,0.92);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  padding:28px 26px 22px;
+  min-width:320px;
+  max-width:420px;
+  box-shadow:0 18px 60px rgba(0,0,0,0.8);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  color:#ddd;
+}
+.auth-title{
+  font-size:14px;
+  margin-bottom:4px;
+}
+.auth-subtitle{
+  font-size:11px;
+  opacity:0.75;
+  margin-bottom:10px;
+}
+.auth-card input{
+  background:#050505;
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius:8px;
+  padding:8px 10px;
+  color:#eee;
+  font-family:"Space Mono",ui-monospace,monospace;
+  font-size:11px;
+}
+.auth-card input::placeholder{color:rgba(255,255,255,0.32);} 
+.auth-pass-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius:8px;
+  background:#050505;
+}
+.auth-pass-wrap input{
+  width:100%;
+  padding:8px 32px 8px 10px; /* spazio per l'occhio interno a destra */
+  border:none;
+  background:transparent;
+}
+.auth-eye{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-55%);
+  border:none;
+  background:transparent;
+  color:#aaa;
+  cursor:pointer;
+  padding:0;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.auth-eye-icon{
+  display:block;
+  width:26px;
+  height:26px;
+}
+.auth-eye:hover{color:#fff;} 
+.auth-card button{
+  margin-top:4px;
+  background:#111;
+  border:1px solid #333;
+  color:#f5f5f5;
+  border-radius:8px;
+  padding:8px 10px;
+  font-family:"Space Mono",ui-monospace,monospace;
+  font-size:11px;
+  cursor:pointer;
+}
+.auth-card button:hover{background:#1a1a1a;color:#fff;}
+.auth-card .auth-pass-wrap .auth-eye{
+  border:none;
+  border-radius:0;
+  background:transparent;
+}
+.auth-actions{
+  display:flex;
+  gap:8px;
+  margin-top:4px;
+}
+.auth-hint{
+  margin-top:4px;
+  font-size:9px;
+  opacity:0.6;
+}
+
+.header{position:fixed;top:0;width:100%;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;z-index:30;font-size:13px;color:#ddd;}
+/* small sound control placed near header center */
+.sound-control{margin:0 12px;display:flex;align-items:center;gap:8px}
+/* minimal, rectangular monochrome range: white = filled portion, dark/transparent = remainder */
+.sound-control input[type=range]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:140px;
+  height:8px; /* slightly taller for visible outline */
+  background:transparent; /* JS will paint a linear-gradient showing filled vs unfilled */
+  border-radius:0; /* square 90° corners */
+  outline:none;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,0.12); /* thin outline */
+  box-shadow: none;
+}
+/* WebKit track/runner: keep transparent so JS gradient shows through */
+.sound-control input[type=range]::-webkit-slider-runnable-track{
+  height:100%; background:transparent; border-radius:0;
+}
+/* Hide the native thumb by making it zero-sized and transparent */
+.sound-control input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:0; height:0; background:transparent; border:none; box-shadow:none;
+}
+/* Firefox: make track transparent, thumb hidden */
+.sound-control input[type=range]::-moz-range-thumb{ width:0; height:0; background:transparent; border:none; }
+.sound-control input[type=range]::-moz-range-track{ height:100%; background:transparent; border-radius:0; }
+/* IE/Edge */
+.sound-control input[type=range]::-ms-thumb{ width:0; height:0; background:transparent; border:none; }
+.sound-control input[type=range]::-ms-track{ height:100%; background:transparent; border-color:transparent; color:transparent; }
+/* ensure IE/Edge don't draw white fill pieces */
+.sound-control input[type=range]::-ms-fill-lower{ background:transparent; border-radius:0; }
+.sound-control input[type=range]::-ms-fill-upper{ background:transparent; border-radius:0; }
+/* make control visually minimal in dark header (no focus outline) */
+.sound-control input[type=range]:focus{ box-shadow:none; }
+
+.auth-panel{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-left:16px;
+}
+.auth-panel input{
+  background:#050505;
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:6px;
+  padding:3px 6px;
+  color:#ddd;
+  font-family:"Space Mono",ui-monospace,monospace;
+  font-size:11px;
+}
+.auth-panel input::placeholder{color:rgba(255,255,255,0.32);}
+.auth-panel button{
+  background:#111;
+  border:1px solid #333;
+  color:#ddd;
+  border-radius:6px;
+  padding:4px 8px;
+  font-family:"Space Mono",ui-monospace,monospace;
+  font-size:10px;
+  cursor:pointer;
+}
+.auth-panel button:hover{background:#1a1a1a;color:#fff;}
+
+.editor-container{width:70%;margin:auto;margin-top:45vh;position:relative;}
+.placeholder{position:absolute;top:0;left:0;pointer-events:none;color:#777;font-size:30px;}
+.prompt{width:100%;min-height:300px;max-height:300px;background:none;border:none;outline:none;overflow:hidden;color:#fff;font-size:30px;line-height:1.4;}
+
+.save-btn{position:absolute;right:-46px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:6px;background:#111;border:1px solid #444;color:#fff;cursor:pointer;}
+.save-btn:hover{background:#1a1a1a;}
+
+.save-template{
+  /* positioned via .editor-actions now */
+  background:#111;
+  border:1px solid #333;
+  color:#dddddd;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:"Space Mono",ui-monospace,monospace;
+  font-size:12px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+}
+.save-template:hover{background:#1a1a1a;color:#fff;}
+
+.token{color:#33ff00;font-weight:700;cursor:pointer;text-decoration:none;}
+.token{
+  display:inline-block;
+  color:#ff0000;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  background: none;
+  padding: 0 4px; /* slight horizontal padding to separate from surrounding text */
+  margin:0 6px 0 0; /* keep spacing to the right */
+  border-radius: 0;
+  vertical-align: baseline; /* align with text baseline */
+  white-space: nowrap;
+  font-size: inherit; /* match surrounding text size */
+  line-height: inherit; /* match surrounding line height */
+}
+
+.token + .token { margin-left: 6px; }
+
+/* ensure tokens don't allow editing inside */
+.token[contenteditable="false"] { user-select: none; }
+
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:36px 20px;box-sizing:border-box;overflow:auto;transition:opacity .3s;z-index:50;}
+.hidden{opacity:0;pointer-events:none;}
+
+.index-grid{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:22px;margin-bottom:32px;width:min(1280px,calc(100% - 80px));color:#ddd;max-height:calc(100vh - 220px);overflow:auto;padding:8px;box-sizing:border-box;}
+.index-col{font-size:14px;transition:.25s;max-height:min(60vh,640px);overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding:2px 2px;box-sizing:border-box;}
+.index-col .cat{position:sticky;top:0;z-index:2;background:transparent;padding-top:0;padding-bottom:2px;margin-bottom:2px}
+.index-col .cat-name{display:inline-block;vertical-align:middle}
+.index-col .item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.index-col::-webkit-scrollbar{width:8px}
+.index-col::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:6px}
+.index-col{scrollbar-width: thin;scrollbar-color: rgba(255,255,255,0.06) transparent}
+.index-col.highlight{transform:scale(1.03);color:#fff;}
+.prompts-col{transform:translateX(-22px);}
+.prompts-title{
+  margin-bottom:10px;
+  width: min(1280px, calc(100% - 80px));
+  box-sizing: border-box;
+  padding-left: 0; /* reduce left padding to move titles further left */
+  margin-left: -8px; /* nudge titles slightly left of the grid alignment */
+  text-align: left;
+}
+.arch-sections{
+  overflow:hidden;
+  max-height:0;
+  opacity:0;
+  transition: max-height 360ms cubic-bezier(0.22,1,0.36,1), opacity 240ms ease;
+}
+.arch-sections.open{
+  opacity:1;
+  overflow:auto; /* allow scrolling once open */
+}
+.prompts-title.categories-title{color:#fff; margin-bottom:36px;} 
+.prompt-item{font-size:12px;cursor:pointer;color:#ddd;transition:.2s;margin-bottom:6px;}
+.prompt-item:hover{color:#fff;transform:translateX(3px);}
+.cat{margin-bottom:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:8px;}
+.cat-name{flex:1;}
+.cat-del{opacity:0;transition:opacity .18s;color:#ffffff;margin-right:6px;cursor:pointer;font-weight:700;}
+.cat:hover .cat-del{opacity:0.9;}
+.cat-edit{opacity:0;transition:opacity .18s;color:#ddd;margin-right:6px;cursor:pointer;font-weight:700;font-size:14px;}
+.cat:hover .cat-edit{opacity:0.9;}
+
+/* delete icon for subcategory headers (shown on sub-row hover via JS) */
+.sub-del{
+  color:#ffffff;
+  margin-left:6px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:12px;
+}
+
+/* category modal */
+.cat-modal{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:210;opacity:0;pointer-events:none;transition:opacity .18s;background:rgba(0,0,0,0.6);} 
+.cat-modal.visible{opacity:1;pointer-events:auto;} 
+.cat-modal-box{background:#0b0b0b;padding:22px;border-radius:12px;min-width:320px;color:#ddd;box-shadow:0 10px 40px rgba(0,0,0,.6);} 
+.cat-modal-box h3{margin:0 0 8px 0;font-size:16px;} 
+.cat-modal-box label{display:block;margin-bottom:6px;font-size:12px;opacity:.8;} 
+.cat-modal-box input{width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#080808;color:#fff;margin-bottom:12px;} 
+.cat-modal-actions{display:flex;gap:8px;justify-content:flex-end;} 
+.cat-modal-actions button{padding:8px 12px;border-radius:8px;border:1px solid #444;background:#111;color:#fff;cursor:pointer;} 
+.cat-modal-actions button:hover{background:#1a1a1a;} 
+
+.item{margin-left:16px;font-size:12px;cursor:pointer;opacity:0;height:0;overflow:hidden;transition:all .25s;color:#ddd;display:flex;align-items:center;gap:8px;padding:0 4px;}
+.item.visible{opacity:1;height:auto;margin-bottom:5px;padding:4px 0;}
+.item .item-del{opacity:0;transition:opacity .18s;color:#ffffff;margin-right:6px;cursor:pointer;font-weight:700;font-size:12px;}
+.item:hover .item-del{opacity:0.9;}
+.item-name{flex:1;}
+.add-btn{
+  /* look like category titles */
+  background:none;
+  border:none;
+  color:#ddd;
+  font-family:"Space Mono",ui-monospace,monospace;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-size:14px;
+  padding:6px 0;
+  margin:0 0 12px 0;
+  cursor:pointer;
+  align-self:start;
+}
+.add-btn:hover{color:#fff;transform:translateX(3px);}
+
+/* when placed inside the grid, allow it to flow into the next available grid slot */
+.index-grid .add-btn{
+  justify-self:stretch;
+  grid-column:auto;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start; /* align left instead of centered */
+  padding:8px 6px; /* slightly more balanced padding */
+  border-radius:8px;
+  background:transparent;
+  border:1px dashed transparent;
+  text-align:left;
+}
+
+/* ensure the add button visually matches category header spacing */
+.index-grid .add-btn .mono{margin-left:0;padding-left:0;}
+
+/* @ menus: same typography as index (mono, small) */
+.floating-menu{
+  position:absolute;
+  background:rgba(10,10,10,.92);
+  border-radius:10px;
+  padding:10px;
+  z-index:200;
+  min-width:280px;
+  max-height:320px;
+  overflow:auto;
+  font-family:"Space Mono",ui-monospace,monospace;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-size:12px;
+  color:#ddd;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+.floating-menu .section{margin:4px 0 6px;opacity:.65;font-size:11px;}
+.floating-menu .row{
+  padding:6px 8px;
+  cursor:pointer;
+  border-radius:8px;
+  transition:.14s;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.floating-menu .row:hover{background:#2a2a2a;color:#fff;}
+.floating-menu .meta{opacity:.7;white-space:nowrap;}
+
+/* @-menu: black scrollbars for WebKit and Firefox
+   Applies to the @ menu container and its inner scrollable sections (covers multi-column content) */
+/* @-menu scrollbars: fixed dark-gray thumb, no hover change */
+#atMenu, #atMenu * {
+  scrollbar-width: thin; /* Firefox */
+  /* thumb, track (Firefox) */
+  scrollbar-color: #2b2b2b transparent;
+}
+#atMenu::-webkit-scrollbar, #atMenu *::-webkit-scrollbar{
+  width:10px; height:10px;
+}
+#atMenu::-webkit-scrollbar-thumb, #atMenu *::-webkit-scrollbar-thumb{
+  background: #2b2b2b; /* fixed dark-gray thumb */
+  border-radius:8px;
+}
+#atMenu::-webkit-scrollbar-thumb:hover, #atMenu *::-webkit-scrollbar-thumb:hover,
+#atMenu::-webkit-scrollbar-thumb:active, #atMenu *::-webkit-scrollbar-thumb:active{
+  background: #2b2b2b !important; /* remain same on hover/active */
+}
+#atMenu::-webkit-scrollbar-track, #atMenu *::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+/* Ensure all @-menu columns (floating-menu) use dark, semi-transparent scrollbars */
+.floating-menu, .floating-menu * {
+  scrollbar-width: thin; /* Firefox */
+  /* Use same fixed dark-gray thumb for floating @-menu columns */
+  scrollbar-color: #2b2b2b rgba(0,0,0,0.06);
+}
+.floating-menu::-webkit-scrollbar, .floating-menu *::-webkit-scrollbar{
+  width:12px; height:12px;
+}
+.floating-menu::-webkit-scrollbar-thumb, .floating-menu *::-webkit-scrollbar-thumb{
+  background: #2b2b2b; /* fixed dark-gray thumb */
+  border-radius:8px;
+}
+.floating-menu::-webkit-scrollbar-thumb:hover, .floating-menu *::-webkit-scrollbar-thumb:hover,
+.floating-menu::-webkit-scrollbar-thumb:active, .floating-menu *::-webkit-scrollbar-thumb:active{
+  background: #2b2b2b !important; /* no change on hover/active */
+}
+.floating-menu::-webkit-scrollbar-track, .floating-menu *::-webkit-scrollbar-track{
+  background: rgba(0,0,0,0.06); /* subtle dark track */
+  border-radius:8px;
+}
+
+/* help: prevent selection glow */
+::selection{background:rgba(255,255,255,.15);}
+
+/* close button for index overlay */
+.close-index{
+  position:absolute;
+  top:18px;
+  right:22px;
+  z-index:60;
+  background:transparent;
+  border:none;
+  color:#bbb;
+  font-size:18px;
+  cursor:pointer;
+  padding:6px 8px;
+  border-radius:6px;
+}
+.close-index:hover{background:rgba(255,255,255,0.03);color:#fff;}
+
+/* overlay separator */
+.overlay-sep{
+  width:60%;
+  border:none;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);
+  margin:36px 0; /* increased vertical spacing between sections */
+}
+
+.templates-section{
+  width:min(1280px,calc(100% - 80px));
+  color:#ddd;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-start; /* align header left so it matches CATEGORIES INDEX */
+  margin-top:12px; /* extra breathing room under the separator */
+}
+.templates-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(220px,1fr));
+  gap:18px;
+  width:100%;
+}
+
+.template-card{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.03);
+  padding:12px;
+  border-radius:8px;
+  color:#ddd;
+  font-size:13px;
+  cursor:pointer;
+  transition:transform .12s,background .12s;
+}
+.template-card:hover{transform:translateY(-4px);background:rgba(255,255,255,0.03)}
+
+.copy-inline{
+  background:#111;
+  border:1px solid #333;
+  color:#ddd;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:"Space Mono",ui-monospace,monospace;
+  font-size:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:36px;
+}
+.copy-inline svg{width:16px;height:16px;color:#ddd;}
+.copy-inline:hover{background:#1a1a1a;color:#fff}
+
+/* actions area inside editor (bottom-right) */
+.editor-actions{position:absolute;right:10px;bottom:10px;display:flex;gap:8px;align-items:center;z-index:20}
+.center{cursor:pointer;transition:.14s;color:#ddd;}
+.center:hover{color:#fff;transform:translateX(3px);}
+.loc{cursor:pointer;color:#ddd;text-decoration:none}
+.loc:hover{color:#fff}
+
+/* bottom marquee (fixed bottom-left, static) */
+.bottom-marquee{
+  position:fixed;
+  left:12px; /* align to left */
+  right:auto;
+  bottom:6px;
+  overflow:visible; /* allow full text to be visible to the right */
+  pointer-events:none;
+  z-index:40;
+}
+.bottom-marquee .marquee{
+  display:inline-block;
+  white-space:nowrap;
+  color:#ddd;
+  font-family:inherit; /* use same font as header (mono) */
+  font-size:13px; /* match header size */
+  animation:none; /* disable scrolling animation */
+  transform:none;
+  text-align:left;
+}
+
+/* @-menu search input */
+.at-search{
+  width:100%;
+  box-sizing:border-box;
+  margin:8px 0 10px 0;
+  padding:8px 10px;
+  border-radius:8px;
+  background:#0b0b0b; /* dark/black background */
+  border:1px solid rgba(255,255,255,0.04);
+  color:#ddd;
+  font-family:"Space Mono", ui-monospace, monospace; /* match index mono font */
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  height:34px;
+  outline:none;
+}
+.at-search::placeholder{ color: rgba(255,255,255,0.25); text-transform:none; }
+.at-search:focus{ box-shadow:0 0 0 3px rgba(255,255,255,0.02); border-color:rgba(255,255,255,0.12); }
+
+/* Final enforcement: keep @-menu and floating-menu scrollbar thumbs fixed dark-gray in all states */
+#atMenu::-webkit-scrollbar-thumb, #atMenu *::-webkit-scrollbar-thumb,
+#atMenu::-webkit-scrollbar-thumb:hover, #atMenu *::-webkit-scrollbar-thumb:hover,
+#atMenu::-webkit-scrollbar-thumb:active, #atMenu *::-webkit-scrollbar-thumb:active,
+#atMenu::-webkit-scrollbar-thumb:focus, #atMenu *::-webkit-scrollbar-thumb:focus,
+#atMenu::-webkit-scrollbar-thumb:window-inactive, #atMenu *::-webkit-scrollbar-thumb:window-inactive {
+  background: #2b2b2b !important;
+}
+#atMenu, #atMenu * { scrollbar-color: #2b2b2b rgba(0,0,0,0.06) !important; }
+
+.floating-menu::-webkit-scrollbar-thumb, .floating-menu *::-webkit-scrollbar-thumb,
+.floating-menu::-webkit-scrollbar-thumb:hover, .floating-menu *::-webkit-scrollbar-thumb:hover,
+.floating-menu::-webkit-scrollbar-thumb:active, .floating-menu *::-webkit-scrollbar-thumb:active,
+.floating-menu::-webkit-scrollbar-thumb:focus, .floating-menu *::-webkit-scrollbar-thumb:focus,
+.floating-menu::-webkit-scrollbar-thumb:window-inactive, .floating-menu *::-webkit-scrollbar-thumb:window-inactive {
+  background: #2b2b2b !important;
+}
+.floating-menu, .floating-menu * { scrollbar-color: #2b2b2b rgba(0,0,0,0.06) !important; }
