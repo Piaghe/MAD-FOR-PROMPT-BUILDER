@@ -1,14 +1,17 @@
 {
-  "name": "prompt-builder-backend",
+  "name": "prompt-builder",
   "version": "1.0.0",
   "private": true,
-  "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
