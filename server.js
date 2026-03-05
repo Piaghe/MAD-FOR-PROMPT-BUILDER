@@ -6,11 +6,19 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+console.log("[v0] Server starting, __dirname:", __dirname);
+console.log("[v0] index.html exists:", fs.existsSync(path.join(__dirname, 'index.html')));
+
 app.use(cors());
 app.use(express.json());
 
 // Serve static frontend files from the project root
 app.use(express.static(path.join(__dirname)));
+
+app.use((req, res, next) => {
+  console.log("[v0] Request:", req.method, req.url);
+  next();
+});
 
 const DATA_DIR = path.join(__dirname, 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
@@ -91,11 +99,12 @@ app.post('/api/profile', (req, res) => {
   res.json({ ok: true });
 });
 
-// Fallback: serve index.html for any non-API route (Express 5 requires named wildcard)
-app.get('/{*splat}', (req, res) => {
+// Fallback: serve index.html for the root and any non-API route
+app.get('/', (req, res) => {
+  console.log("[v0] Serving index.html for root");
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Prompt Builder API listening on port ${PORT}`);
+  console.log("[v0] Server listening on port", PORT);
 });
