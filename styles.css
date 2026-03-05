@@ -5,7 +5,7 @@ body{margin:0;background:#000000;overflow:hidden;font-family:Inter,system-ui,san
 .auth-screen{
   position:fixed;
   inset:0;
-  background:radial-gradient(circle at top,#202020 0,#000000 55%);
+  background:#ff0000;
   display:flex;
   align-items:center;
   justify-content:center;
