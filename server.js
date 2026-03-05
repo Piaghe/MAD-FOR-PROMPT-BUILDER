@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static frontend files from the project root
+app.use(express.static(path.join(__dirname)));
+
 const DATA_DIR = path.join(__dirname, 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const PROFILES_FILE = path.join(DATA_DIR, 'profiles.json');

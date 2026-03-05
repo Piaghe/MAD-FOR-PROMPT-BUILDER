@@ -4,10 +4,11 @@
   "private": true,
   "main": "server.js",
   "scripts": {
+    "dev": "node server.js",
     "start": "node server.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.19.0"
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
   }
 }
