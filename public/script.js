@@ -708,21 +708,24 @@ function renderAuthPanel(){
 }
 
 function setupAuthScreen(){
-  if (!authScreen) return;
+  console.log("[v0] setupAuthScreen called, authScreen:", !!authScreen);
+  if (!authScreen) { console.log("[v0] no authScreen, returning"); return; }
   const userInput = $('loginUser');
   const passInput = $('loginPass');
   const loginBtn = $('loginBtn');
   const signupBtn = $('signupBtn');
   const togglePassBtn = $('togglePass');
-  if (!userInput || !passInput || !loginBtn || !signupBtn || !togglePassBtn) return;
+  console.log("[v0] auth elements:", { userInput: !!userInput, passInput: !!passInput, loginBtn: !!loginBtn, signupBtn: !!signupBtn, togglePassBtn: !!togglePassBtn });
+  if (!userInput || !passInput || !loginBtn || !signupBtn || !togglePassBtn) { console.log("[v0] missing auth element, returning"); return; }
   togglePassBtn.onclick = () => {
     passInput.type = passInput.type === 'password' ? 'text' : 'password';
   };
 
   const doLogin = async () => {
+    console.log("[v0] doLogin called");
     const u = (userInput.value || '').trim();
     const p = passInput.value || '';
-    if (!u || !p) return;
+    if (!u || !p) { console.log("[v0] doLogin: empty username or password"); return; }
     try{
       const res = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
@@ -2334,7 +2337,13 @@ renderIndex = function(){
 
 // ---------------- Init ----------------
 (async function init(){
-  await loadProfileFromStorage();
+  console.log("[v0] init() started");
+  try {
+    await loadProfileFromStorage();
+    console.log("[v0] loadProfileFromStorage done, currentUser:", currentUser);
+  } catch(e) {
+    console.log("[v0] loadProfileFromStorage error:", e);
+  }
   // Clear existing categories/subcategories/items once so we start clean.
   clearIndexDataOnce();
   // Seed default structures once per user.
@@ -2346,7 +2355,9 @@ renderIndex = function(){
   updatePlaceholderVisibility();
   adjustFont();
   renderAuthPanel();
+  console.log("[v0] about to call setupAuthScreen, authScreen:", authScreen);
   setupAuthScreen();
+  console.log("[v0] setupAuthScreen done, loginBtn:", document.getElementById('loginBtn'));
 })();
 
 // Wire save template button (editor corner)
