@@ -91,6 +91,11 @@ app.post('/api/profile', (req, res) => {
   res.json({ ok: true });
 });
 
-app.listen(PORT, () => {
-  console.log(`Prompt Builder API listening on http://localhost:${PORT}`);
+// Fallback: serve index.html for any non-API route (Express 5 requires named wildcard)
+app.get('/{*splat}', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Prompt Builder API listening on port ${PORT}`);
 });
